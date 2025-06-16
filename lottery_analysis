@@ -1,0 +1,41 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+years = np.arange(1, 81)  # For 80 years
+draws_per_year = 104
+ticket_cost = 2  # Example ticket price in dollars
+
+# Cumulative draws per year
+total_draws = years * draws_per_year
+
+# Single draw win probability (for example, 1 in 13,983,816 if choosing 6 from 49)
+single_draw_prob = 1 / 13983816
+
+# Cumulative probability: 1 - probability of losing all draws
+cumulative_prob = 1 - np.power(1 - single_draw_prob, total_draws)
+
+# Total ticket cost over the years
+total_cost = total_draws * ticket_cost
+
+# Plotting
+fig, ax1 = plt.subplots(figsize=(12, 8))
+
+color = 'tab:blue'
+ax1.set_xlabel('Years')
+ax1.set_ylabel('Win Probability', color=color)
+ax1.plot(years, cumulative_prob, color=color, label='Win Probability')
+ax1.tick_params(axis='y', labelcolor=color)
+ax1.set_title('80-Year Lottery Win Probability & Total Ticket Cost')
+
+# Create second y-axis for cost
+ax2 = ax1.twinx()  
+color = 'tab:red'
+ax2.set_ylabel('Total Ticket Cost ($)', color=color)
+ax2.plot(years, total_cost, color=color, label='Total Ticket Cost', linestyle='--')
+ax2.tick_params(axis='y', labelcolor=color)
+
+# Add legends and grid
+fig.tight_layout()  
+plt.legend(loc='upper left')
+plt.grid(True)
+plt.show()
